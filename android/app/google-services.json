@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "230677489732",
+    "project_id": "sugarpals-20569",
+    "storage_bucket": "sugarpals-20569.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:230677489732:android:bca3084aca8f6c0f7cf411",
+        "android_client_info": {
+          "package_name": "com.example.sugarpals"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDahfohLUIDUwZ-hoLaWGIDoXGCa6U_C-o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
