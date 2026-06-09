@@ -8,9 +8,9 @@
 
 | Nama | Branch | Fitur | Folder |
 |------|--------|-------|--------|
-| [Nama Anggota 1] | `feature/risk-assessment` | Kalkulator Risiko Diabetes | `lib/screens/assessment/` |
-| [Nama Anggota 2] | `feature/sugar-log` | Log Konsumsi Gula Harian | `lib/screens/sugar_log/` |
-| [Nama Anggota 3] | `feature/challenge-streak` | Tantangan & Streak | `lib/screens/challenge/` |
+| Azka | `feature/risk-assessment` | Kalkulator Risiko Diabetes | `lib/screens/assessment/` |
+| Naufal | `feature/sugar-log` | Log Konsumsi Gula Harian | `lib/screens/sugar_log/` |
+| Dea | `feature/challenge-streak` | Tantangan & Streak | `lib/screens/challenge/` |
 
 ---
 
@@ -331,15 +331,6 @@ await _validateStreak(uid);
 
 ---
 
-## Tanda Tangan Kesepakatan
-
-Dengan bergabung di repository ini dan melakukan commit pertama, setiap anggota dianggap telah membaca dan menyetujui seluruh isi dokumen ini.
-
-| Nama | Branch | Tanggal |
-|------|--------|---------|
-| [Nama Anggota 1] | `feature/risk-assessment` | |
-| [Nama Anggota 2] | `feature/sugar-log` | |
-| [Nama Anggota 3] | `feature/challenge-streak` | |
 
 ---
 
