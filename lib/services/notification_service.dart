@@ -11,26 +11,26 @@ class NotificationService {
 
   static const _channel = AndroidNotificationChannel(
     'gula_alerts',
-    'GulaDarahku Alerts',
+    'Sugar Pals Alerts',
     description: 'Notifikasi untuk konsumsi gula dan pesan Firebase.',
     importance: Importance.high,
   );
 
   Future<void> initialize() async {
-    const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
-    const initSettings = InitializationSettings(android: androidInit);
-    await _localNotifications.initialize(settings: initSettings);
+  const androidInit = AndroidInitializationSettings('@mipmap/ic_launcher');
+  const initSettings = InitializationSettings(android: androidInit);
 
-    final androidPlugin = _localNotifications
-        .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin
-        >();
-    await androidPlugin?.createNotificationChannel(_channel);
-    await androidPlugin?.requestNotificationsPermission();
+  await _localNotifications.initialize(initSettings);  // ← positional, bukan named
 
-    await FirebaseMessaging.instance.requestPermission();
-    FirebaseMessaging.onMessage.listen(_showRemoteMessage);
-  }
+  final androidPlugin = _localNotifications
+      .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>();
+
+  await androidPlugin?.createNotificationChannel(_channel);
+  await androidPlugin?.requestNotificationsPermission();
+
+  await FirebaseMessaging.instance.requestPermission();
+  FirebaseMessaging.onMessage.listen(_showRemoteMessage);
+}
 
   Future<void> syncToken(String uid) async {
     final token = await FirebaseMessaging.instance.getToken();
@@ -52,15 +52,15 @@ class NotificationService {
     required double totalGram,
     required double targetGram,
   }) async {
+    // 'id' → tidak ada, 'title' → tidak ada, 'notificationDetails' → 'details'
     await _localNotifications.show(
-      id: 2001,
-      title: 'Batas gula harian terlewati',
-      body:
-          'Hari ini ${totalGram.toStringAsFixed(1)}g dari target ${targetGram.toStringAsFixed(0)}g.',
-      notificationDetails: const NotificationDetails(
+      2001,
+      'Batas gula harian terlewati',
+      'Hari ini ${totalGram.toStringAsFixed(1)}g dari target ${targetGram.toStringAsFixed(0)}g.',
+      const NotificationDetails(
         android: AndroidNotificationDetails(
           'gula_alerts',
-          'GulaDarahku Alerts',
+          'Sugar Pals Alerts',
           channelDescription:
               'Notifikasi untuk konsumsi gula dan pesan Firebase.',
           importance: Importance.high,
@@ -72,18 +72,18 @@ class NotificationService {
 
   Future<void> _showRemoteMessage(RemoteMessage message) async {
     final notification = message.notification;
-    final title = notification?.title ?? message.data['title'] ?? 'GulaDarahku';
+    final title = notification?.title ?? message.data['title'] ?? 'Sugar Pals';
     final body =
         notification?.body ?? message.data['body'] ?? 'Ada pesan baru.';
 
     await _localNotifications.show(
-      id: message.hashCode,
-      title: title,
-      body: body,
-      notificationDetails: const NotificationDetails(
+      message.hashCode,
+      title,
+      body,
+      const NotificationDetails(
         android: AndroidNotificationDetails(
           'gula_alerts',
-          'GulaDarahku Alerts',
+          'Sugar Pals Alerts',
           channelDescription:
               'Notifikasi untuk konsumsi gula dan pesan Firebase.',
           importance: Importance.high,
