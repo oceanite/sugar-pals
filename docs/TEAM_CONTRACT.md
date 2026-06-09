@@ -1,6 +1,4 @@
 # Kontrak Tim — Sugar Pals
-> Dokumen ini adalah kesepakatan bersama tim Sugar Pals yang wajib dipatuhi selama development berlangsung.
-> Ditandatangani dan disepakati sebelum development dimulai.
 
 ---
 
@@ -20,7 +18,7 @@
 
 - Setiap anggota **wajib commit minimal sekali per hari** di hari aktif development.
 - Setiap anggota bertanggung jawab penuh atas fitur di folder masing-masing — dari UI sampai koneksi Firestore.
-- Kalau ada kendala teknis, **wajib lapor ke grup maksimal 1 jam** setelah menemukan masalah — jangan diam sampai deadline.
+- Kalau ada kendala teknis, **wajib lapor ke grup** setelah menemukan masalah
 - Setiap anggota wajib hadir saat sesi integrasi (Hari 12) tanpa pengecualian.
 
 ### 1.2 Pembagian file — ownership
@@ -28,9 +26,9 @@
 Setiap anggota hanya boleh mengedit file di dalam folder miliknya sendiri tanpa perlu koordinasi:
 
 ```
-Anggota 1 → lib/screens/assessment/
-Anggota 2 → lib/screens/sugar_log/
-Anggota 3 → lib/screens/challenge/
+azka → lib/screens/assessment/
+maufal → lib/screens/sugar_log/
+dea → lib/screens/challenge/
 ```
 
 ### 1.3 File shared — wajib koordinasi sebelum edit
@@ -49,28 +47,6 @@ android/app/build.gradle.kts
 firestore.rules
 ```
 
-Format koordinasi di grup sebelum edit file shared:
-
-```
-🔒 Mau edit: [nama file]
-Alasan: [kenapa perlu diedit]
-Estimasi selesai: [berapa menit]
-```
-
-Tunggu minimal satu anggota lain reply **"ok"** sebelum mulai edit.
-
-### 1.4 Jadwal dan milestone
-
-| Hari | Target |
-|------|--------|
-| 1–2 | Setup selesai, semua anggota bisa `flutter run` |
-| 3–6 | Create + Read masing-masing fitur jalan |
-| 7 | **Milestone 1**: semua fitur bisa input dan tampilkan data dari Firestore |
-| 8–10 | Update + Delete + Push Notification |
-| 11 | Polish UI masing-masing fitur |
-| 12 | **Integrasi bersama** — merge, bug fixing |
-| 13 | Latihan demo, siapkan slide |
-| 14 | **Demo ke dosen** |
 
 ---
 
@@ -131,9 +107,9 @@ Scope disesuaikan dengan nama fitur:
 
 | Anggota | Scope |
 |---------|-------|
-| Anggota 1 | `risk` |
-| Anggota 2 | `sugar-log` |
-| Anggota 3 | `challenge` |
+| azka | `risk` |
+| naufal | `sugar-log` |
+| dea | `challenge` |
 | Semua | `main`, `shared`, `notif` |
 
 **Contoh commit yang benar:**
