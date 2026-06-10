@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../app_constants.dart';
-import 'sugar_log_screen.dart';
+import 'sugar_log/sugar_log_screen.dart';
 
 class ChallengeScreen extends StatelessWidget {
   const ChallengeScreen({super.key, required this.user});

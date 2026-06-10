@@ -3,10 +3,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../app_constants.dart';
-import '../domain/health_logic.dart';
-import '../services/notification_service.dart';
-import '../services/open_food_facts_service.dart';
+import '../../app_constants.dart';
+import '../../domain/health_logic.dart';
+import '../../services/notification_service.dart';
+import '../../services/open_food_facts_service.dart';
 
 class SugarLogScreen extends StatelessWidget {
   const SugarLogScreen({super.key, required this.user});
