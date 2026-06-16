@@ -110,9 +110,3 @@ kalori = MET x berat_badan_kg x durasi_jam
 - `flutter test` - lulus
 - `flutter build apk --debug` - lulus
 
-## Catatan Presentasi
-
-- Aplikasi ini cocok dipresentasikan sebagai solusi edukasi kesehatan berbasis SDG 3.4.
-- Fokus demo sebaiknya ada di alur login, onboarding, tambah data, update data, hapus data, dan sinkronisasi challenge.
-- Saat demo final, siapkan penjelasan pembagian tugas tiap anggota dan alur CRUD end-to-end masing-masing fitur.
-
