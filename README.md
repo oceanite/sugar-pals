@@ -1,178 +1,118 @@
-# Pembaruan Versi `b3f5243`
+# Sugar Pals - Final Project Report
 
-Commit: `b3f5243`  
-Judul: `Fix sugar log layout and portrait orientation`
+**Periode Final Project:** 19 May - 16 June 2026  
+**Tema:** Edukasi pencegahan diabetes dan kontrol konsumsi gula  
+**SDG:** SDG 3.4 - Good Health & Well-Being
 
-## Screenshots
+## Ringkasan Proyek
 
-<img width="369" height="821" alt="image" src="https://github.com/user-attachments/assets/8d0c470e-9c1f-477c-8032-67761248e628" />
-<img width="371" height="823" alt="image" src="https://github.com/user-attachments/assets/e42117b1-02e2-4ca0-9ff7-6861ed04c4d5" />
-<img width="378" height="830" alt="image" src="https://github.com/user-attachments/assets/6fcb3b2f-51a2-4dae-9601-27521032f6ff" />
-<img width="371" height="835" alt="image" src="https://github.com/user-attachments/assets/7ee77f58-3b4b-4d4d-89b7-ed01b642fe6f" />
+Sugar Pals adalah aplikasi Flutter untuk membantu pengguna memantau konsumsi gula harian, risiko diabetes, dan aktivitas olahraga. Seluruh alur utama dibuat end-to-end dari mobile app ke cloud server melalui Firebase Authentication, Cloud Firestore, push notification, dan integrasi external API.
 
-## Ringkasan
+## Kesesuaian Dengan FP Guidelines
 
-Versi ini berfokus pada perapihan pengalaman layar `Log Gula`, terutama untuk tata letak aksi cepat dan konsistensi orientasi aplikasi di Android.
+- Individual contribution terpenuhi: setiap anggota memegang satu fitur fungsional utama dengan CRUD penuh.
+- Project theme sesuai SDGs: fokus pada kesehatan, pencegahan diabetes, dan pengelolaan gaya hidup.
+- Feature complexity terpenuhi: fitur utama menggunakan Create, Read, Update, Delete.
+- Version control terpenuhi: seluruh project disimpan dalam satu repository utama.
+- User authentication terpenuhi: login dan onboarding memakai Firebase Authentication.
+- Cloud infrastructure terpenuhi: data utama tersimpan di Cloud Firestore.
+- Project timeline terpenuhi: pengembangan dijalankan bertahap dengan commit rutin.
+- API integration terpenuhi: lookup nutrisi/barcode menggunakan Open Food Facts dan Cloud Function proxy.
+- AI policy diperhatikan: AI boleh dipakai untuk code generation, tetapi kode harus tetap bisa dijelaskan dan dibetulkan saat demo.
 
-## Perubahan Kode
+## Technical Requirements
 
-### 1. Kunci orientasi portrait
+- Firebase Authentication: dipakai untuk login dan identitas user.
+- Cloud Firestore: dipakai untuk menyimpan profile, risk assessment, sugar log, activity log, dan challenge.
+- Push Notifications: dipakai untuk sinkronisasi dan pengingat notifikasi via Firebase Messaging.
+- Navigation Bar: dipakai sebagai navigasi utama antar halaman aplikasi.
+- Bonus architecture yang aktif: Firebase Crashlytics untuk real-time crash reporting.
 
-Perubahan dilakukan di:
+## Pembagian Jobdesk CRUD
 
-- `android/app/src/main/AndroidManifest.xml`
-- `lib/main.dart`
+| Anggota | Branch | Fitur | Create | Read | Update | Delete | Folder Utama |
+|---|---|---|---|---|---|---|---|
+| Azka | `feature/risk-assessment` | Kalkulator Risiko Diabetes | Tambah hasil assessment baru | Lihat riwayat assessment | Ubah data assessment | Hapus assessment lama | `lib/screens/risk_screen.dart` |
+| Naufal | `feature/sugar-log` | Log Konsumsi Gula Harian | Tambah log gula dan log olahraga | Lihat riwayat gula, riwayat aktivitas, dan ringkasan harian | Edit log gula dan edit log olahraga | Hapus log gula dan hapus log olahraga | `lib/screens/sugar_log_screen.dart` |
+| Dea | `feature/challenge-streak` | Tantangan dan Streak | Buat challenge gula atau challenge olahraga | Lihat daftar challenge dan progress harian | Edit, cancel, dan recalculate challenge | Hapus challenge nonaktif | `lib/screens/challenge_screen.dart` |
 
-Detail:
+### Detail CRUD per fitur
 
-- Activity Android sekarang dipaksa ke `portrait` lewat manifest.
-- Saat aplikasi dijalankan di platform non-web, Flutter juga memanggil `SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])`.
+#### 1. Kalkulator Risiko Diabetes
 
-Dampak:
+- Create: menambahkan hasil assessment ke koleksi `riskAssessments`.
+- Read: menampilkan daftar riwayat assessment dari Cloud Firestore.
+- Update: mengubah data assessment lama bila user melakukan revisi.
+- Delete: menghapus assessment yang sudah tidak dipakai.
 
-- Tampilan tidak lagi berpindah ke landscape.
-- Layout `Log Gula` menjadi lebih stabil di perangkat Android.
+#### 2. Log Konsumsi Gula Harian
 
-### 2. Perapihan aksi cepat di layar Log Gula
+- Create: menambah log gula manual, dari barcode, atau dari alur olahraga.
+- Read: menampilkan ringkasan gula hari ini, riwayat gula, dan riwayat aktivitas.
+- Update: mengubah data log gula atau log aktivitas yang sudah tersimpan.
+- Delete: menghapus log gula maupun log olahraga lalu menghitung ulang progress challenge.
 
-Perubahan utama dilakukan di:
+#### 3. Tantangan dan Streak
 
-- `lib/screens/sugar_log_screen.dart`
+- Create: membuat challenge baru untuk target gula atau target olahraga.
+- Read: menampilkan daftar challenge aktif, expired, completed, dan progress-nya.
+- Update: mengubah data challenge, cancel challenge, dan menghitung ulang progress.
+- Delete: menghapus challenge yang sudah nonaktif.
 
-Detail:
+## Alur Cloud dan API
 
-- Tombol aksi `Barcode`, `Olahraga`, dan `Manual` dipindahkan dari `floatingActionButton` bertumpuk menjadi panel aksi cepat di dalam konten halaman.
-- Ditambahkan widget `_LogQuickActions` berbasis `LayoutBuilder` dan `Wrap` agar susunan tombol adaptif pada lebar layar kecil.
-- Tombol `Manual` dibedakan secara visual dengan `OutlinedButton`, sementara aksi utama lain tetap menggunakan `FilledButton`.
+### Firebase Authentication
 
-Dampak:
+- User login memakai Firebase Auth.
+- Setelah login, aplikasi memeriksa status profil dan mengarahkan user ke onboarding jika data belum lengkap.
 
-- Aksi utama lebih mudah dijangkau.
-- Risiko tombol bertumpuk atau terpotong di layar sempit berkurang.
-- Struktur halaman `Log Gula` menjadi lebih rapi dan lebih konsisten dengan isi halaman.
+### Cloud Firestore
 
-### 3. Penyesuaian spacing halaman
+- Profile user disimpan di koleksi `users`.
+- Data turunan disimpan di subkoleksi seperti `riskAssessments`, `sugarLogs`, `activityLogs`, dan `challenges`.
 
-Perubahan dilakukan di:
+### External API
 
-- `lib/theme/gula_theme.dart`
+- Open Food Facts dipakai sebagai fallback lookup nutrisi/barcode.
+- Cloud Function `lookupNutritionByBarcode` dipakai sebagai proxy backend untuk mengambil data nutrisi dari beberapa provider.
+- Provider backend yang dipakai:
+  - `c0r.ai`
+  - `CalorieAPI`
+  - `USDA FoodData Central`
+  - `Edamam`
+  - `Open Food Facts`
 
-Detail:
+### Catatan perhitungan kalori
 
-- `bottomPadding` default pada `GulaPage` diubah dari `116` menjadi `104`.
-- `SafeArea` pada bagian bawah di-nonaktifkan dengan `bottom: false`.
+- Tracking olahraga dan estimasi kalori dihitung lokal di aplikasi.
+- Rumus yang dipakai:
 
-Dampak:
+```text
+kalori = MET x berat_badan_kg x durasi_jam
+```
 
-- Komposisi halaman lebih rapat dan proporsional.
-- Ruang kosong di bagian bawah berkurang.
-- Layout lebih cocok dengan panel aksi cepat baru di layar `Log Gula`.
+- Jalan kaki menggunakan MET lebih rendah dari lari.
+- Durasi dihitung dari jarak dan kecepatan asumsi.
+- Hasil perhitungan dipakai untuk progress challenge olahraga.
 
-### 4. Penyesuaian desain dan font yang lebih kekinian
+## Struktur Fitur Utama
 
-Perubahan utama terkait visual dilakukan di:
+- `lib/main.dart` menangani bootstrap Firebase, auth gate, notifikasi, dan navigasi utama.
+- `lib/navigation_shell.dart` menyediakan bottom navigation bar.
+- `lib/screens/risk_screen.dart` menangani kalkulator risiko.
+- `lib/screens/sugar_log_screen.dart` menangani sugar log, barcode lookup, dan activity log.
+- `lib/screens/challenge_screen.dart` menangani challenge dan streak.
+- `lib/services/nutrition_lookup_service.dart` menangani lookup barcode ke backend dan fallback ke Open Food Facts.
 
-- `pubspec.yaml`
-- `assets/fonts/`
-- `lib/theme/gula_theme.dart`
+## Validasi Akhir
 
-Detail font baru yang digunakan sekarang:
+- `flutter analyze` - lulus
+- `flutter test` - lulus
+- `flutter build apk --debug` - lulus
 
-- Keluarga font utama: `Roboto`
-- Keluarga font heading/display: `RobotoSlab`
+## Catatan Presentasi
 
-Lokasi asset font:
+- Aplikasi ini cocok dipresentasikan sebagai solusi edukasi kesehatan berbasis SDG 3.4.
+- Fokus demo sebaiknya ada di alur login, onboarding, tambah data, update data, hapus data, dan sinkronisasi challenge.
+- Saat demo final, siapkan penjelasan pembagian tugas tiap anggota dan alur CRUD end-to-end masing-masing fitur.
 
-- `assets/fonts/Roboto-Regular.ttf`
-- `assets/fonts/Roboto-Medium.ttf`
-- `assets/fonts/Roboto-Bold.ttf`
-- `assets/fonts/Roboto-Black.ttf`
-- `assets/fonts/RobotoSlab-VariableFont_wght.ttf`
-
-Lokasi pemanggilan font:
-
-- `pubspec.yaml`
-  Mendaftarkan family `Roboto` dan `RobotoSlab` ke Flutter asset system.
-- `lib/theme/gula_theme.dart`
-  `ThemeData.fontFamily` diatur ke `Roboto` sebagai font dasar aplikasi.
-- `lib/theme/gula_theme.dart`
-  Beberapa elemen judul seperti `headlineLarge`, `headlineMedium`, `headlineSmall`, `AppBar`, dan elemen merek menggunakan `RobotoSlab`.
-
-Penyesuaian desain minimalis yang digunakan sekarang:
-
-- Palet warna dibuat lebih tenang dan konsisten melalui `GulaColors`, dengan dominasi hijau lembut, krem, dan aksen amber/coral.
-- Permukaan UI memakai `Card`, `GulaSurface`, border tipis, dan radius yang konsisten agar tampilan terasa bersih.
-- Layout mengurangi elemen yang bertumpuk dan memindahkan aksi penting ke komponen yang lebih terstruktur.
-- Tipografi dibedakan jelas antara teks isi dan heading, sehingga tampilan terasa lebih modern dan lebih mudah dipindai.
-
-Dampak:
-
-- Tampilan aplikasi terasa lebih ringan, rapi, dan lebih modern.
-- Hirarki visual lebih jelas, terutama di layar `Log Gula`, `Beranda`, dan komponen branded aplikasi.
-
-### 5. Penambahan fitur tracking kalori dan olahraga
-
-Perubahan utama terkait fitur ini dilakukan di:
-
-- `lib/domain/activity_logic.dart`
-- `lib/screens/activity_log_sheet.dart`
-- `lib/screens/sugar_log_screen.dart`
-- `lib/screens/home_screen.dart`
-- `lib/screens/challenge_screen.dart`
-- `lib/services/challenge_service.dart`
-
-Fitur yang tersedia sekarang:
-
-- Pengguna dapat mencatat aktivitas olahraga dari alur `Log Gula`.
-- Aktivitas mendukung mode `Jalan kaki` dan `Lari`.
-- Sistem menyimpan jarak tempuh, menghitung estimasi kalori terbakar, dan memakai data itu untuk progress challenge olahraga.
-- Dashboard `Beranda` menampilkan ringkasan kalori terbakar dan progres target olahraga mingguan.
-
-Perhitungan kalori yang dipakai:
-
-Perhitungan ada di `lib/domain/activity_logic.dart` melalui fungsi `estimateCaloriesBurned(...)`.
-
-Rumus:
-
-`kalori = MET x berat_badan_kg x durasi_jam`
-
-Komponen rumus:
-
-- `MET` ditentukan dari jenis aktivitas:
-  - jalan kaki = `3.5`
-  - lari = `8.5`
-- durasi dihitung dari:
-  - `durasi_jam = jarak_km / kecepatan_asumsi_km_per_jam`
-- kecepatan asumsi:
-  - jalan kaki = `5.0 km/jam`
-  - lari = `8.0 km/jam`
-
-Artinya, estimasi kalori tidak hanya bergantung pada jarak, tetapi juga mode olahraga dan berat badan pengguna.
-
-Eksternal API yang digunakan terkait fitur ini:
-
-- `Open Food Facts`
-  Dipakai sebagai fallback untuk lookup nutrisi/barcode makanan.
-- Firebase Cloud Functions `lookupNutritionByBarcode`
-  Dipanggil oleh `NutritionLookupService` untuk mengambil data nutrisi barcode dari backend.
-
-Provider eksternal yang dipakai di backend `functions/` untuk lookup nutrisi:
-
-- `c0r.ai`
-- `CalorieAPI`
-- `USDA FoodData Central`
-- `Edamam`
-- `Open Food Facts`
-
-Catatan:
-
-- API eksternal di atas dipakai untuk fitur nutrisi dan log gula berbasis barcode.
-- Tracking olahraga dan perhitungan kalori dilakukan lokal di aplikasi dari data profil dan input aktivitas pengguna, bukan dari API pihak ketiga.
-
-## Hasil Pengujian
-
-Pengujian yang dijalankan pada direktori `C:\SMT 6\PPB\EAS`:
-
-- `flutter test` -> lulus
-- `flutter analyze` -> lulus, tanpa issue
-- `npm test` pada `functions/` -> lulus
